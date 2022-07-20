@@ -37,7 +37,7 @@ namespace DoItFast.WebApi.Extensions
                     {
                         Title = "MusalaTest.WebApi",
                         Version = version,
-                        Description = "Template",
+                        Description = "Api Documentation",
                         Contact = new OpenApiContact
                         {
                             Name = "Dayron Jesús Díaz Diego",
