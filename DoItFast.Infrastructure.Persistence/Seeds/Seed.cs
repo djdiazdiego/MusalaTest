@@ -13,6 +13,8 @@ namespace DoItFast.Infrastructure.Persistence.Seeds
     /// <typeparam name="TEntity"></typeparam>
     public abstract class Seed<TEntity> : ISeed where TEntity : class, IEnumeration
     {
+        protected Seed() { }
+
         /// <inheritdoc />
         public virtual async Task SeedAsync(IServiceProvider provider, CancellationToken cancelationToken)
         {

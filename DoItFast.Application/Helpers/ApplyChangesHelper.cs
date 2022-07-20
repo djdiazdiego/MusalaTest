@@ -69,7 +69,7 @@ namespace DoItFast.Application.Helpers
         /// <returns></returns>
         private static async Task ApplySeedsAsync(this IServiceProvider provider, CancellationToken cancellationToken)
         {
-            await provider.ApplyIdentitySeedAsync();
+            //await provider.ApplyIdentitySeedAsync();
             await ApplyApplicationSeedsAsync(provider, cancellationToken);
         }
 
