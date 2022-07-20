@@ -23,11 +23,11 @@ namespace DoItFast.Application.Features.Queries.PeripheralDevice
             var order = this.Order;
             var sortOperation = order.SortOperation == default ? SortOperation.ASC : order.SortOperation;
 
-            if (order?.SortBy == nameof(PeripheralDeviceWithGatewayResponseDto.SerialNumber))
+            if (order?.SortBy.ToUpper() == nameof(PeripheralDeviceWithGatewayResponseDto.SerialNumber).ToUpper())
                 return sortOperation == SortOperation.ASC ? query.OrderBy(p => p.Gateway.Id) : query.OrderByDescending(p => p.Gateway.Id);
-            else if (order?.SortBy == nameof(PeripheralDeviceWithGatewayResponseDto.IpAddress))
+            else if (order?.SortBy.ToUpper() == nameof(PeripheralDeviceWithGatewayResponseDto.IpAddress).ToUpper())
                 return sortOperation == SortOperation.ASC ? query.OrderBy(p => p.Gateway.IpAddress) : query.OrderByDescending(p => p.Gateway.IpAddress);
-            else if (order?.SortBy == nameof(PeripheralDeviceWithGatewayResponseDto.ReadableName))
+            else if (order?.SortBy.ToUpper() == nameof(PeripheralDeviceWithGatewayResponseDto.ReadableName).ToUpper())
                 return sortOperation == SortOperation.ASC ? query.OrderBy(p => p.Gateway.ReadableName) : query.OrderByDescending(p => p.Gateway.ReadableName);
             else
                 return base.BuildOrder(query);
