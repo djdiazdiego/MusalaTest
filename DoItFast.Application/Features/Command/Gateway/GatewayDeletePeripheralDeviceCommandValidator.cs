@@ -5,7 +5,7 @@ using FluentValidation;
 
 namespace DoItFast.Application.Features.Command.Gateway
 {
-    public class GatewayDeletePeripheralDeviceCommandValidator : BaseValidator<GatewayDeletePeripheralDeviceCommand>
+    public sealed class GatewayDeletePeripheralDeviceCommandValidator : BaseValidator<GatewayDeletePeripheralDeviceCommand>
     {
         public GatewayDeletePeripheralDeviceCommandValidator(IQueryRepository<Domain.Models.GatewayAggregate.Gateway> queryRepository)
         {

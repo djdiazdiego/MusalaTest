@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DoItFast.Application.Features.Queries.Gateway
 {
-    public class GatewayFilterQuery : FilterQuery<GatewayFilterResponseDto, GatewayResponseDto,
+    public sealed class GatewayFilterQuery : FilterQuery<GatewayFilterResponseDto, GatewayResponseDto,
         Domain.Models.GatewayAggregate.Gateway>
     {
         ///// <summary>

@@ -4,7 +4,7 @@ using DoItFast.Domain.Core.Abstractions.Persistence;
 
 namespace DoItFast.Application.Features.Command.Gateway
 {
-    public class GatewayCreateCommandValidator : BaseValidator<GatewayCreateCommand>
+    public sealed class GatewayCreateCommandValidator : BaseValidator<GatewayCreateCommand>
     {
         public GatewayCreateCommandValidator(IQueryRepository<Domain.Models.GatewayAggregate.Gateway> queryRepository,
             IQueryRepository<Domain.Models.GatewayAggregate.PeripheralDeviceStatus> deviceStatusQueryRepository) : base()

@@ -2,7 +2,7 @@
 
 namespace DoItFast.Application.Features.Command.Gateway
 {
-    public class GatewayUpdateCommand : UpdateCommand<string, GatewayResponseDto>
+    public sealed class GatewayUpdateCommand : UpdateCommand<string, GatewayResponseDto>
     {
         /// <summary>
         /// Serial number

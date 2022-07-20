@@ -3,7 +3,7 @@ using DoItFast.Domain.Core.Abstractions.Persistence;
 
 namespace DoItFast.Application.Features.Command.Gateway
 {
-    public class GatewayDeleteCommandValidator : BaseValidator<GatewayDeleteCommand>
+    public sealed class GatewayDeleteCommandValidator : BaseValidator<GatewayDeleteCommand>
     {
         public GatewayDeleteCommandValidator(IQueryRepository<Domain.Models.GatewayAggregate.Gateway> queryRepository)
         {

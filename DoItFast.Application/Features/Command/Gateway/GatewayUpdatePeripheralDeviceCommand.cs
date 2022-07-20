@@ -5,7 +5,7 @@ using DoItFast.Domain.Models.GatewayAggregate;
 
 namespace DoItFast.Application.Features.Command.Gateway
 {
-    public class GatewayUpdatePeripheralDeviceCommand : PeripheralDeviceToUpdateDeleteModel, ICommand<Response<PeripheralDeviceResponseDto>>
+    public sealed class GatewayUpdatePeripheralDeviceCommand : PeripheralDeviceToUpdateDeleteModel, ICommand<Response<PeripheralDeviceResponseDto>>
     {
         /// <summary>
         /// Vendor

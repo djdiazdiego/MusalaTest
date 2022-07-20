@@ -7,7 +7,7 @@ using DoItFast.Infrastructure.Shared.Services.Interfaces;
 
 namespace DoItFast.Application.Features.Command.Gateway
 {
-    public class GatewayCreateCommandHandler : ICommandHandler<GatewayCreateCommand, Response<GatewayResponseDto>>
+    public sealed class GatewayCreateCommandHandler : ICommandHandler<GatewayCreateCommand, Response<GatewayResponseDto>>
     {
         private readonly IRepository<Domain.Models.GatewayAggregate.Gateway> _gatewayRepository;
         private readonly IRepository<Domain.Models.GatewayAggregate.PeripheralDevice> _deviceRepository;

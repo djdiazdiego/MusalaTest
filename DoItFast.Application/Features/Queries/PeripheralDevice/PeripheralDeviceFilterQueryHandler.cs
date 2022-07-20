@@ -4,7 +4,7 @@ using DoItFast.Domain.Core.Abstractions.Persistence;
 
 namespace DoItFast.Application.Features.Queries.PeripheralDevice
 {
-    public class PeripheralDeviceFilterQueryHandler : FilterQueryHandler<Domain.Models.GatewayAggregate.PeripheralDevice,
+    public sealed class PeripheralDeviceFilterQueryHandler : FilterQueryHandler<Domain.Models.GatewayAggregate.PeripheralDevice,
         PeripheralDeviceFilterResponseDto,
         PeripheralDeviceWithGatewayResponseDto,
         PeripheralDeviceFilterQuery>

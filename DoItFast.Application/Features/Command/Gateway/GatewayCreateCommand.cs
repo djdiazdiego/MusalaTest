@@ -2,7 +2,7 @@
 
 namespace DoItFast.Application.Features.Command.Gateway
 {
-    public class GatewayCreateCommand : Command<GatewayResponseDto>
+    public sealed class GatewayCreateCommand : Command<GatewayResponseDto>
     {
         /// <summary>
         /// Serial number
@@ -19,7 +19,7 @@ namespace DoItFast.Application.Features.Command.Gateway
 
         public List<PeripheralDeviceModel> PeripheralDevices { get; set; }
 
-        public class PeripheralDeviceModel : Gateway.PeripheralDeviceModel
+        public sealed class PeripheralDeviceModel : Gateway.PeripheralDeviceModel
         {
         }
     }

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DoItFast.Application.Features.Command.Gateway
 {
-    public class GatewayUpdateCommandHandler : ICommandHandler<GatewayUpdateCommand, Response<GatewayResponseDto>>
+    public sealed class GatewayUpdateCommandHandler : ICommandHandler<GatewayUpdateCommand, Response<GatewayResponseDto>>
     {
         private readonly IRepository<Domain.Models.GatewayAggregate.Gateway> _gatewayRepository;
         private readonly IRepository<Domain.Models.GatewayAggregate.PeripheralDevice> _deviceRepository;

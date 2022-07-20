@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DoItFast.Application.Features.Queries.PeripheralDevice
 {
-    public class PeripheralDeviceFilterQuery : FilterQuery<PeripheralDeviceFilterResponseDto,
+    public sealed class PeripheralDeviceFilterQuery : FilterQuery<PeripheralDeviceFilterResponseDto,
         PeripheralDeviceWithGatewayResponseDto,
         Domain.Models.GatewayAggregate.PeripheralDevice>
     {

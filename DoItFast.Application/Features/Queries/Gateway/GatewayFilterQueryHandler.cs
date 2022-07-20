@@ -4,7 +4,7 @@ using DoItFast.Domain.Core.Abstractions.Persistence;
 
 namespace DoItFast.Application.Features.Queries.Gateway
 {
-    public class GatewayFilterQueryHandler : FilterQueryHandler<Domain.Models.GatewayAggregate.Gateway, GatewayFilterResponseDto,
+    public sealed class GatewayFilterQueryHandler : FilterQueryHandler<Domain.Models.GatewayAggregate.Gateway, GatewayFilterResponseDto,
         GatewayResponseDto,
         GatewayFilterQuery>
     {
