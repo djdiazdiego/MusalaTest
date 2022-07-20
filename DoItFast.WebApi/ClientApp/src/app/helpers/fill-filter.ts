@@ -6,7 +6,7 @@ export class FillFilter {
     static FillPaging(event: LazyLoadEvent): Paging {
 
         const paging: Paging = {
-            page: event.first != undefined ? event.first : 1,
+            page: event.first != undefined && event.rows != undefined ? event.first/event.rows : 1,
             pageSize: event.rows != undefined ? event.rows : 10
         };
 
