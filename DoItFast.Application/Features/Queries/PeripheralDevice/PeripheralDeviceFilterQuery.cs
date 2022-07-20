@@ -31,6 +31,8 @@ namespace DoItFast.Application.Features.Queries.PeripheralDevice
                 return sortOperation == SortOperation.ASC ? query.OrderBy(p => p.Gateway.ReadableName) : query.OrderByDescending(p => p.Gateway.ReadableName);
             else if (order?.SortBy.ToUpper() == nameof(PeripheralDeviceWithGatewayResponseDto.Created).ToUpper())
                 return sortOperation == SortOperation.ASC ? query.OrderBy(p => p.Gateway.Created.Date) : query.OrderByDescending(p => p.Gateway.Created.Date);
+            else if (order?.SortBy.ToUpper() == "STATUS")
+                return sortOperation == SortOperation.ASC ? query.OrderBy(p => p.PeripheralDeviceStatusId) : query.OrderByDescending(p => p.PeripheralDeviceStatusId);
             else
                 return base.BuildOrder(query);
         }
