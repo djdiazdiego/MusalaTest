@@ -45,10 +45,10 @@ namespace DoItFast.Application.Features.Queries
         public static IQueryable<TModel> BuildPagging<TModel>(this IQueryable<TModel> query, IPaging pagging)
             where TModel : class
         {
-            var page = pagging.Page < 0 ? 0 : pagging.Page;
+            var page = pagging.Page < 1 ? 1 : pagging.Page;
             var pageSize = pagging.PageSize < 10 ? 10 : pagging.PageSize;
 
-            return query.Skip(page * pageSize).Take(pageSize);
+            return query.Skip((page - 1) * pageSize).Take(pageSize);
         }
     }
 }
