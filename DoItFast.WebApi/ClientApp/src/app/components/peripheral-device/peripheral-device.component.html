@@ -1,0 +1,103 @@
+<div class="grid">
+	<div class="col-12">
+		<div class="card">
+
+			<p-table #dt [columns]="cols" [value]="peripheralDevices" [lazy]="true"
+				(onLazyLoad)="loadPeripheralDevice($event)" responsiveLayout="scroll" dataKey="id" [paginator]="true"
+				[rows]="10" [totalRecords]="totalRecords" [loading]="loading" [rowHover]="true"
+				currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+				[showCurrentPageReport]="true">
+
+				<!-- [globalFilterFields]="globalGatewayFilter" -->
+				<ng-template pTemplate="caption">
+					<div class="flex align-items-center justify-content-between">
+						<h5 class="ml-0 mr-0 mt-2 mb-2">Peripheral Devices</h5>
+					</div>
+				</ng-template>
+				<ng-template pTemplate="header" let-columns>
+					<tr>
+						<th *ngFor="let col of columns" [pSortableColumn]="col.field">
+							{{col.header}} <p-sortIcon field="{{col.field}}"></p-sortIcon>
+							<!-- <p-columnFilter type="text" field="{{col.field}}" display="menu" class="ml-auto"></p-columnFilter> -->
+						</th>
+						<th></th>
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-rowData let-columns="columns">
+					<tr>
+						<td *ngFor="let col of columns">
+							<div *ngIf="col.field != 'created'; else elseBlock">{{rowData[col.field]}}</div>
+							<ng-template #elseBlock>{{rowData[col.field] | date: 'yyyy/MM/dd'}}</ng-template>			
+						</td>
+						<td>
+							<button pButton pRipple icon="pi pi-book" class="p-button-rounded p-button-text"
+								(click)="showDetails(rowData)" pTooltip="Details"></button>
+							<button pButton pRipple icon="pi pi-pencil"
+								class="p-button-rounded p-button-warning p-button-text"
+								(click)="updatePeripheralDevice(rowData)" pTooltip="Edit"></button>
+							<button pButton pRipple icon="pi pi-trash"
+								class="p-button-rounded p-button-danger p-button-text"
+								(click)="deletePeripheralDevice(rowData)" pTooltip="Remove"></button>
+						</td>
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+
+	</div>
+</div>
+
+<p-dialog [(visible)]="peripheralDeviceDialog" [style]="{width: '600px'}" header="Peripheral Device Details"
+	[modal]="true" styleClass="p-fluid">
+	<ng-template pTemplate="content">
+
+		<div class="field">
+			<label for="vendor">Vendor</label>
+			<input type="text" pInputText id="vendor" [(ngModel)]="peripheralDevice.vendor" required autofocus
+				[maxlength]="64" [disabled]="details" />
+			<small class="p-error" *ngIf="submitted && !peripheralDevice.vendor">Is required</small>
+		</div>
+		<div class="field">
+			<label for="status">Status</label>
+			<p-dropdown id="status" [options]="peripheralDeviceStatus" [(ngModel)]="peripheralDeviceStatusSelected"
+				optionLabel="name" [disabled]="details">
+			</p-dropdown>
+		</div>
+
+		<div class="field">
+			<label for="serialNumber">Serial Number</label>
+			<input type="text" pInputText id="serialNumber" [(ngModel)]="peripheralDevice.serialNumber"
+				[disabled]="true" />
+		</div>
+
+		<div class="field">
+			<label for="readableName">Readable Name</label>
+			<input type="text" pInputText id="readableName" [(ngModel)]="peripheralDevice.readableName"
+				[disabled]="true" />
+		</div>
+		<div class="field">
+			<label for="ipAddress">Ip Address</label>
+			<input type="text" pInputText id="ipAddress" [(ngModel)]="peripheralDevice.ipAddress" [disabled]="true" />
+		</div>
+		<div class="field">
+			<label for="created">Created</label>
+			<p-inputMask id="created" mask="9999/99/99" [(ngModel)]="peripheralDevice.created" slotChar="yyyy/mm/dd"
+				[disabled]="true"></p-inputMask>
+		</div>
+
+	</ng-template>
+
+	<ng-template pTemplate="footer">
+		<button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text mt-2"
+			(click)="hideDialog()"></button>
+		<span [hidden]="details">
+			<button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text"
+				(click)="savePeripheralDevice()"></button>
+		</span>
+
+	</ng-template>
+</p-dialog>
+
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+<p-toast></p-toast>
