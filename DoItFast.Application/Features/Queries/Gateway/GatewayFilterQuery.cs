@@ -42,7 +42,7 @@ namespace DoItFast.Application.Features.Queries.Gateway
             var order = this.Order;
             var sortOperation = order.SortOperation == default ? SortOperation.ASC : order.SortOperation;
 
-            if (order?.SortBy == nameof(GatewayResponseDto.SerialNumber))
+            if (order?.SortBy.ToUpper() == nameof(GatewayResponseDto.SerialNumber).ToUpper())
                 return sortOperation == SortOperation.ASC ? query.OrderBy(p => p.Id) : query.OrderByDescending(p => p.Id);
             else return base.BuildOrder(query);
 
