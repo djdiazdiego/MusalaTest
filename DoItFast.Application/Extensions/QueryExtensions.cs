@@ -16,7 +16,9 @@ namespace DoItFast.Application.Features.Queries
         /// <returns></returns>
         public static IQueryable<TModel> ApplyOrder<TModel>(this IQueryable<TModel> source, IOrder order)
         {
-            var sortBy = typeof(TModel).GetProperties().Any(p => p.Name == order.SortBy) ? order.SortBy : nameof(IEntity.Id);
+            var sortBy = typeof(TModel).GetProperties().Any(p => p.Name.ToUpper() == order.SortBy.ToUpper()) ? 
+                typeof(TModel).GetProperties().Where(p => p.Name.ToUpper() == order.SortBy.ToUpper()).Select(p => p.Name).First()
+                : nameof(IEntity.Id);
             var sortOperation = order.SortOperation == default ? SortOperation.ASC : order.SortOperation;
 
             var type = typeof(TModel);
