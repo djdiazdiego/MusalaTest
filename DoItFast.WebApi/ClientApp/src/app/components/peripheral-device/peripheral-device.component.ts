@@ -142,7 +142,10 @@ export class PeripheralDeviceComponent implements OnInit {
     savePeripheralDevice() {
         this.submitted = true;
         if (!this.peripheralDevice.vendor)
+        {
+            this.messageService.add({ severity: 'error', summary: 'Rejected', detail: "Some fields are required", life: 5000 });
             return;
+        }
         this.peripheralDevice.peripheralDeviceStatusId = this.peripheralDeviceStatusSelected.id;
         this.peripheralDeviceService.update(this.peripheralDevice).subscribe({
             next: data => {

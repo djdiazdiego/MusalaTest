@@ -171,8 +171,11 @@ export class GatewayComponent implements OnInit {
 
         const invalid = this.gateway.peripheralDevices.some(v => v.vendor == undefined || v.vendor == "");
 
-        if (!this.gateway.serialNumber || !this.gateway.readableName || !this.gateway.ipAddress || invalid)
+        if (!this.gateway.serialNumber || !this.gateway.readableName || !this.gateway.ipAddress || invalid) {
+            this.messageService.add({ severity: 'error', summary: 'Rejected', detail: "Some fields are required", life: 5000 });
             return;
+        }
+
 
         for (let i = 0; i < this.gateway.peripheralDevices.length; i++)
             this.gateway.peripheralDevices[i].peripheralDeviceStatusId = this.peripheralDeviceStatusSelected[i].id;
