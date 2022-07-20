@@ -6,7 +6,7 @@
 				(onLazyLoad)="loadPeripheralDevice($event)" responsiveLayout="scroll" dataKey="id" [paginator]="true"
 				[rows]="10" [totalRecords]="totalRecords" [loading]="loading" [rowHover]="true"
 				currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-				[showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]">
+				[showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [scrollable]="true">
 
 				<!-- [globalFilterFields]="globalGatewayFilter" -->
 				<ng-template pTemplate="caption">
@@ -27,7 +27,7 @@
 					<tr>
 						<td *ngFor="let col of columns">
 							<div *ngIf="col.field != 'created'; else elseBlock">{{rowData[col.field]}}</div>
-							<ng-template #elseBlock>{{rowData[col.field] | date: 'yyyy/MM/dd'}}</ng-template>			
+							<ng-template #elseBlock>{{rowData[col.field] | date: 'yyyy/MM/dd'}}</ng-template>
 						</td>
 						<td>
 							<button pButton pRipple icon="pi pi-book" class="p-button-rounded p-button-text"
