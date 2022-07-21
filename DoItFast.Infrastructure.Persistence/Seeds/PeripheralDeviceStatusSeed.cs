@@ -2,7 +2,7 @@
 
 namespace DoItFast.Infrastructure.Persistence.Seeds
 {
-    public sealed class PeripheralDeviceStatusSeed : Seed<PeripheralDeviceStatus>
+    public sealed class PeripheralDeviceStatusSeed : EnumerationSeed<PeripheralDeviceStatus>
     {
     }
 }

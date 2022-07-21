@@ -11,9 +11,9 @@ namespace DoItFast.Infrastructure.Persistence.Seeds
     /// Seed for enuneration entity.
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
-    public abstract class Seed<TEntity> : ISeed where TEntity : class, IEnumeration
+    public abstract class EnumerationSeed<TEntity> : ISeed where TEntity : class, IEnumeration
     {
-        protected Seed() { }
+        protected EnumerationSeed() { }
 
         /// <inheritdoc />
         public virtual async Task SeedAsync(IServiceProvider provider, CancellationToken cancelationToken)
