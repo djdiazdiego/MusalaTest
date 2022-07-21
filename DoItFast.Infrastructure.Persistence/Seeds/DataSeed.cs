@@ -1,7 +1,6 @@
 ﻿using DoItFast.Domain.Core.Abstractions.Entities.Interfaces;
 using DoItFast.Domain.Core.Abstractions.Persistence;
 using DoItFast.Infrastructure.Persistence.Contexts;
-using DoItFast.Infrastructure.Shared.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -17,8 +16,8 @@ namespace DoItFast.Infrastructure.Persistence.Seeds
 
         /// <inheritdoc />
         public abstract Task SeedAsync(IServiceProvider provider, CancellationToken cancelationToken);
-
-        public async Task SaveChangesAsync(IServiceProvider provider, TEntity[] entities, CancellationToken cancelationToken)
+        
+        protected async Task SaveChangesAsync(IServiceProvider provider, TEntity[] entities, CancellationToken cancelationToken)
         {
             using var scope = provider.CreateScope();
             using var context = scope.ServiceProvider.GetRequiredService<DbContextWrite>();
