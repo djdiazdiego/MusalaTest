@@ -46,7 +46,7 @@ namespace DoItFast.Application.Features.Queries
             where TModel : class
         {
             var page = pagging.Page < 1 ? 1 : pagging.Page;
-            var pageSize = pagging.PageSize < 10 ? 10 : pagging.PageSize;
+            var pageSize = pagging.PageSize < 1 ? 10 : pagging.PageSize;
 
             return query.Skip((page - 1) * pageSize).Take(pageSize);
         }
