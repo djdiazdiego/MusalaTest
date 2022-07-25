@@ -1,4 +1,5 @@
-﻿using DoItFast.Domain.Core.Abstractions.Entities.Interfaces;
+﻿using DoItFast.Domain;
+using DoItFast.Domain.Core.Abstractions.Entities.Interfaces;
 using DoItFast.Domain.Core.Abstractions.Persistence;
 using DoItFast.Domain.Settings;
 using DoItFast.Infrastructure.Persistence.Contexts;
@@ -7,6 +8,7 @@ using DoItFast.Infrastructure.Shared.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 namespace DoItFast.Infrastructure.Persistence
 {
@@ -36,13 +38,9 @@ namespace DoItFast.Infrastructure.Persistence
         /// Add repositories services.
         /// </summary>
         /// <param name="services"></param>
-        private static void AddRepositories(this IServiceCollection services)
+        public static void AddRepositories(this IServiceCollection services)
         {
-            var assembly = AppDomain.CurrentDomain
-                .GetAssemblies()
-                .Where(a => a.GetName().Name.Equals("DoItFast.Domain"))
-                .First();
-
+            var assembly = Assembly.Load("DoItFast.Domain");
             var types = typeof(IEntity).GetConcreteTypes(assembly);
 
             foreach (var type in types)

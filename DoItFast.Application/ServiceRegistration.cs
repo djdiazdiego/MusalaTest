@@ -1,7 +1,5 @@
 ﻿using DoItFast.Application.Behaviours;
 using DoItFast.Application.Extensions;
-using DoItFast.Application.Services;
-using DoItFast.Application.Services.Interfaces;
 using DoItFast.Application.Wrappers;
 using DoItFast.Domain.Core.Abstractions.Persistence;
 using DoItFast.Domain.Settings;
@@ -80,7 +78,7 @@ namespace DoItFast.Application
                     ValidAudience = jwtSettings.Audience,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Key))
                 };
-                
+
                 o.Events = new JwtBearerEvents()
                 {
                     OnAuthenticationFailed = c =>
