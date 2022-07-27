@@ -52,7 +52,7 @@ namespace DoItFast.Application.Extensions
                 .WithMessage(GeneralMessages.AlreadyExists.GetDescription());
 
         /// <summary>
-        /// Check if it already exists in database
+        /// Check if it not found in database
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="ruleBuilder"></param>

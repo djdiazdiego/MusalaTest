@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DoItFast.Application.Features.Command.Gateway
 {
-    public sealed class GatewayUpdatePeripheralDeviceCommandHanadler : ICommandHandler<GatewayUpdatePeripheralDeviceCommand, Response<PeripheralDeviceResponseDto>>
+    public sealed class GatewayUpdatePeripheralDeviceCommandHandler : ICommandHandler<GatewayUpdatePeripheralDeviceCommand, Response<PeripheralDeviceResponseDto>>
     {
         private readonly IRepository<Domain.Models.GatewayAggregate.Gateway> _gatewayRepository;
         private readonly IRepository<Domain.Models.GatewayAggregate.PeripheralDevice> _deviceRepository;
@@ -21,7 +21,7 @@ namespace DoItFast.Application.Features.Command.Gateway
         /// <param name="deviceRepository"></param>
         /// <param name="mapper"></param>
         /// <param name="unitOfWork"></param>
-        public GatewayUpdatePeripheralDeviceCommandHanadler(
+        public GatewayUpdatePeripheralDeviceCommandHandler(
             IRepository<Domain.Models.GatewayAggregate.Gateway> gatewayRepository,
             IRepository<Domain.Models.GatewayAggregate.PeripheralDevice> deviceRepository,
             IMapper mapper,

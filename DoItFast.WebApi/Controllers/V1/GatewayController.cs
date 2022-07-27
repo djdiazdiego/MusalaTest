@@ -33,7 +33,6 @@ namespace DoItFast.WebApi.Controllers.V1
         /// <returns></returns>
         [HttpGet, Route("page")]
         [ProducesResponseType(typeof(Response<GatewayFilterResponseDto>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ValidationResponse), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Response<GatewayFilterResponseDto>>> Page([FromQuery] GatewayFilterRequestDto filter, CancellationToken cancellationToken) =>
             await this.BuildFilterAsync<GatewayFilterRequestDto, GatewayResponseDto, GatewayFilterResponseDto>(filter, _mapper, _mediator, cancellationToken);
 
