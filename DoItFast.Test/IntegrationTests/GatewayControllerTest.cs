@@ -27,21 +27,25 @@ namespace DoItFast.Test.IntegrationTests
             _setupServices = new SetupServices();
         }
 
+        [TearDown]
+        public async Task TearDown()
+        {
+            await _setupServices.DisposeAsync();
+        }
+
         [Test]
         public async Task CreateGatewayOk()
         {
-            try
-            {
-                using var scope = _setupServices.CreateScope();
-                var mapper = scope.ServiceProvider.GetService<IMapper>();
-                var mediator = scope.ServiceProvider.GetService<IMediator>();
+            using var scope = _setupServices.CreateScope();
+            var mapper = scope.ServiceProvider.GetService<IMapper>();
+            var mediator = scope.ServiceProvider.GetService<IMediator>();
 
-                var dto = new GatewayCreateRequestDto
-                {
-                    SerialNumber = "SN",
-                    IpAddress = "127.0.0.1",
-                    ReadableName = "RN",
-                    PeripheralDevices = new List<PeripheralDeviceCreateRequestDto>()
+            var dto = new GatewayCreateRequestDto
+            {
+                SerialNumber = "SN",
+                IpAddress = "127.0.0.1",
+                ReadableName = "RN",
+                PeripheralDevices = new List<PeripheralDeviceCreateRequestDto>()
                 {
                     new PeripheralDeviceCreateRequestDto
                     {
@@ -54,91 +58,71 @@ namespace DoItFast.Test.IntegrationTests
                         PeripheralDeviceStatusId = PeripheralDeviceStatusValues.Offline
                     }
                 }
-                };
-                var controller = new GatewayController(mediator, mapper);
-                var response = await controller.Post(dto, default);
+            };
+            var controller = new GatewayController(mediator, mapper);
+            var response = await controller.Post(dto, default);
 
-                if (response.Result is OkObjectResult okObject)
-                    Assert.IsInstanceOf<Response<GatewayResponseDto>>(okObject.Value);
-                else
-                    Assert.Fail();
-            }
-            finally
-            {
-                await _setupServices.DisposeAsync();
-            }
+            if (response.Result is OkObjectResult okObject)
+                Assert.IsInstanceOf<Response<GatewayResponseDto>>(okObject.Value);
+            else
+                Assert.Fail();
         }
 
         [Test]
         public async Task CreateGatewayValidationError()
         {
-            try
+            using var scope = _setupServices.CreateScope();
+            var mapper = scope.ServiceProvider.GetService<IMapper>();
+            var mediator = scope.ServiceProvider.GetService<IMediator>();
+
+            var dto = new GatewayCreateRequestDto
             {
-                using var scope = _setupServices.CreateScope();
-                var mapper = scope.ServiceProvider.GetService<IMapper>();
-                var mediator = scope.ServiceProvider.GetService<IMediator>();
+                SerialNumber = "sn"
+            };
 
-                var dto = new GatewayCreateRequestDto
-                {
-                    SerialNumber = "sn"
-                };
+            var controller = new GatewayController(mediator, mapper);
 
-                var controller = new GatewayController(mediator, mapper);
+            Assert.CatchAsync<ValidationException>(async () => await controller.Post(dto, default));
 
-                Assert.CatchAsync<ValidationException>(async () => await controller.Post(dto, default));
-            }
-            finally
-            {
-                await _setupServices.DisposeAsync();
-            }
         }
 
         [Test]
         public async Task PageGatewayOk()
         {
-            try
+            using var scope = _setupServices.CreateScope();
+            var mapper = scope.ServiceProvider.GetService<IMapper>();
+            var mediator = scope.ServiceProvider.GetService<IMediator>();
+
+            var dto = new GatewayFilterRequestDto
             {
-                using var scope = _setupServices.CreateScope();
-                var mapper = scope.ServiceProvider.GetService<IMapper>();
-                var mediator = scope.ServiceProvider.GetService<IMediator>();
+                Order = new ColumnNameModel { SortBy = "", SortOperation = Domain.Core.Enums.SortOperation.ASC },
+                Paging = new PagingModel { Page = 1, PageSize = 10 }
+            };
 
-                var dto = new GatewayFilterRequestDto
-                {
-                    Order = new ColumnNameModel { SortBy = "", SortOperation = Domain.Core.Enums.SortOperation.ASC },
-                    Paging = new PagingModel { Page = 1, PageSize = 10 }
-                };
+            var controller = new GatewayController(mediator, mapper);
+            var response = await controller.Page(dto, default);
 
-                var controller = new GatewayController(mediator, mapper);
-                var response = await controller.Page(dto, default);
-
-                if (response.Result is OkObjectResult okObject)
-                    Assert.IsInstanceOf<Response<GatewayFilterResponseDto>>(okObject.Value);
-                else
-                    Assert.Fail();
-            }
-            finally
-            {
-                await _setupServices.DisposeAsync();
-            }
+            if (response.Result is OkObjectResult okObject)
+                Assert.IsInstanceOf<Response<GatewayFilterResponseDto>>(okObject.Value);
+            else
+                Assert.Fail();
         }
 
         [Test]
         public async Task UpdateGatewayOk()
         {
-            try
-            {
-                using var scope = _setupServices.CreateScope();
-                var mapper = scope.ServiceProvider.GetService<IMapper>();
-                var mediator = scope.ServiceProvider.GetService<IMediator>();
-                var gatewayQueryRepository = scope.ServiceProvider.GetService<IQueryRepository<Gateway>>();
+            using var scope = _setupServices.CreateScope();
+            var mapper = scope.ServiceProvider.GetService<IMapper>();
+            var mediator = scope.ServiceProvider.GetService<IMediator>();
+            var gatewayQueryRepository = scope.ServiceProvider.GetService<IQueryRepository<Gateway>>();
 
-                var controller = new GatewayController(mediator, mapper);
-                var dto = new GatewayCreateRequestDto
-                {
-                    SerialNumber = "SN",
-                    IpAddress = "127.0.0.1",
-                    ReadableName = "RN",
-                    PeripheralDevices = new List<PeripheralDeviceCreateRequestDto>()
+            var controller = new GatewayController(mediator, mapper);
+            var dto = new GatewayCreateRequestDto
+            {
+                SerialNumber = "SN",
+                IpAddress = "127.0.0.1",
+                ReadableName = "RN",
+                PeripheralDevices = new List<PeripheralDeviceCreateRequestDto>()
                 {
                     new PeripheralDeviceCreateRequestDto
                     {
@@ -151,23 +135,23 @@ namespace DoItFast.Test.IntegrationTests
                         PeripheralDeviceStatusId = PeripheralDeviceStatusValues.Offline
                     }
                 }
-                };
-                await controller.Post(dto, default);
+            };
+            await controller.Post(dto, default);
 
-                var gateway = await gatewayQueryRepository.FindAll()
-                    .Include(p => p.PeripheralDevices)
-                    .SingleOrDefaultAsync(default);
-                var peripheralDevice = gateway?.PeripheralDevices?.First();
+            var gateway = await gatewayQueryRepository.FindAll()
+                .Include(p => p.PeripheralDevices)
+                .SingleOrDefaultAsync(default);
+            var peripheralDevice = gateway?.PeripheralDevices?.First();
 
-                Assert.IsNotNull(gateway);
-                Assert.IsNotNull(peripheralDevice);
+            Assert.IsNotNull(gateway);
+            Assert.IsNotNull(peripheralDevice);
 
-                var updatedto = new GatewayUpdateRequestDto
-                {
-                    SerialNumber = "SN",
-                    IpAddress = "127.0.0.2",
-                    ReadableName = "RN",
-                    PeripheralDevices = new List<PeripheralDeviceUpdateRequestDto>()
+            var updatedto = new GatewayUpdateRequestDto
+            {
+                SerialNumber = "SN",
+                IpAddress = "127.0.0.2",
+                ReadableName = "RN",
+                PeripheralDevices = new List<PeripheralDeviceUpdateRequestDto>()
                 {
                     new PeripheralDeviceUpdateRequestDto
                     {
@@ -176,42 +160,30 @@ namespace DoItFast.Test.IntegrationTests
                         PeripheralDeviceStatusId = PeripheralDeviceStatusValues.Offline
                     }
                 }
-                };
-                var response = await controller.Put(updatedto, default);
+            };
+            var response = await controller.Put(updatedto, default);
 
-                if (response.Result is OkObjectResult okObject)
-                    Assert.IsInstanceOf<Response<GatewayResponseDto>>(okObject.Value);
-                else
-                    Assert.Fail();
-            }
-            finally
-            {
-                await _setupServices.DisposeAsync();
-            }
+            if (response.Result is OkObjectResult okObject)
+                Assert.IsInstanceOf<Response<GatewayResponseDto>>(okObject.Value);
+            else
+                Assert.Fail();
         }
 
         [Test]
         public async Task UpdateGatewayValidationError()
         {
-            try
+            using var scope = _setupServices.CreateScope();
+            var mapper = scope.ServiceProvider.GetService<IMapper>();
+            var mediator = scope.ServiceProvider.GetService<IMediator>();
+
+            var dto = new GatewayCreateRequestDto
             {
-                using var scope = _setupServices.CreateScope();
-                var mapper = scope.ServiceProvider.GetService<IMapper>();
-                var mediator = scope.ServiceProvider.GetService<IMediator>();
+                SerialNumber = "sn"
+            };
 
-                var dto = new GatewayCreateRequestDto
-                {
-                    SerialNumber = "sn"
-                };
+            var controller = new GatewayController(mediator, mapper);
 
-                var controller = new GatewayController(mediator, mapper);
-
-                Assert.CatchAsync<ValidationException>(async () => await controller.Post(dto, default));
-            }
-            finally
-            {
-                await _setupServices.DisposeAsync();
-            }
+            Assert.CatchAsync<ValidationException>(async () => await controller.Post(dto, default));
         }
     }
 }

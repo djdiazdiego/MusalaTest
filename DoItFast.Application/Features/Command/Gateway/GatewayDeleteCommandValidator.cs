@@ -1,5 +1,6 @@
 ﻿using DoItFast.Application.Extensions;
 using DoItFast.Domain.Core.Abstractions.Persistence;
+using FluentValidation;
 
 namespace DoItFast.Application.Features.Command.Gateway
 {
@@ -8,7 +9,8 @@ namespace DoItFast.Application.Features.Command.Gateway
         public GatewayDeleteCommandValidator(IQueryRepository<Domain.Models.GatewayAggregate.Gateway> queryRepository)
         {
             RuleFor(p => p.Id)
-                .ApiAlreadyExists(queryRepository);
+                .ApiAlreadyExists(queryRepository)
+                .OverridePropertyName(nameof(Domain.Models.GatewayAggregate.Gateway.SerialNumber));
         }
     }
 }

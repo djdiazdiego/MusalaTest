@@ -22,24 +22,28 @@ namespace DoItFast.Test.CommandTests
             _setupServices = new SetupServices();
         }
 
+        [TearDown]
+        public async Task TearDown()
+        {
+            await _setupServices.DisposeAsync();
+        }
+
         [Test]
         public async Task CreateGateway()
         {
-            try
-            {
-                using var scope = _setupServices.CreateScope();
-                var gatewayRepository = scope.ServiceProvider.GetService<IRepository<Gateway>>();
-                var peripheralDeviceRepository = scope.ServiceProvider.GetService<IRepository<PeripheralDevice>>();
-                var mapper = scope.ServiceProvider.GetService<IMapper>();
-                var unitOfWork = scope.ServiceProvider.GetService<IUnitOfWork>();
-                var sqlGuidGenerator = scope.ServiceProvider.GetService<ISqlGuidGenerator>();
+            using var scope = _setupServices.CreateScope();
+            var gatewayRepository = scope.ServiceProvider.GetService<IRepository<Gateway>>();
+            var peripheralDeviceRepository = scope.ServiceProvider.GetService<IRepository<PeripheralDevice>>();
+            var mapper = scope.ServiceProvider.GetService<IMapper>();
+            var unitOfWork = scope.ServiceProvider.GetService<IUnitOfWork>();
+            var sqlGuidGenerator = scope.ServiceProvider.GetService<ISqlGuidGenerator>();
 
-                var commad = new GatewayCreateCommand
-                {
-                    SerialNumber = "SN",
-                    IpAddress = "127.0.0.1",
-                    ReadableName = "RN",
-                    PeripheralDevices = new System.Collections.Generic.List<GatewayCreateCommand.PeripheralDeviceModel>()
+            var commad = new GatewayCreateCommand
+            {
+                SerialNumber = "SN",
+                IpAddress = "127.0.0.1",
+                ReadableName = "RN",
+                PeripheralDevices = new System.Collections.Generic.List<GatewayCreateCommand.PeripheralDeviceModel>()
                 {
                     new GatewayCreateCommand.PeripheralDeviceModel
                     {
@@ -52,30 +56,25 @@ namespace DoItFast.Test.CommandTests
                         PeripheralDeviceStatusId= PeripheralDeviceStatusValues.Offline
                     }
                 }
-                };
-                var commandHandler = new GatewayCreateCommandHandler(gatewayRepository, peripheralDeviceRepository, mapper, unitOfWork, sqlGuidGenerator);
-                var result = await commandHandler.Handle(commad, default);
+            };
+            var commandHandler = new GatewayCreateCommandHandler(gatewayRepository, peripheralDeviceRepository, mapper, unitOfWork, sqlGuidGenerator);
+            var result = await commandHandler.Handle(commad, default);
 
-                Assert.IsNotNull(result);
-                Assert.IsTrue(result.Succeeded);
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Succeeded);
 
-                var gateway = await gatewayRepository.FindAll()
-                    .Include(p => p.PeripheralDevices.OrderBy(pd => pd.Vendor))
-                    .SingleOrDefaultAsync(default);
+            var gateway = await gatewayRepository.FindAll()
+                .Include(p => p.PeripheralDevices.OrderBy(pd => pd.Vendor))
+                .SingleOrDefaultAsync(default);
 
-                Assert.IsNotNull(gateway);
-                Assert.AreEqual(commad.SerialNumber, gateway.SerialNumber);
-                Assert.AreEqual(commad.ReadableName, gateway.ReadableName);
-                Assert.AreEqual(commad.IpAddress, gateway.IpAddress);
-                Assert.AreEqual(commad.SerialNumber, gateway.SerialNumber);
-                Assert.AreEqual(2, gateway.PeripheralDevices.Count);
-                Assert.AreEqual("V1", gateway.PeripheralDevices.First().Vendor);
-                Assert.AreEqual(PeripheralDeviceStatusValues.Online, gateway.PeripheralDevices.First().PeripheralDeviceStatusId);
-            }
-            finally
-            {
-                await _setupServices.DisposeAsync();
-            }
+            Assert.IsNotNull(gateway);
+            Assert.AreEqual(commad.SerialNumber, gateway.SerialNumber);
+            Assert.AreEqual(commad.ReadableName, gateway.ReadableName);
+            Assert.AreEqual(commad.IpAddress, gateway.IpAddress);
+            Assert.AreEqual(commad.SerialNumber, gateway.SerialNumber);
+            Assert.AreEqual(2, gateway.PeripheralDevices.Count);
+            Assert.AreEqual("V1", gateway.PeripheralDevices.First().Vendor);
+            Assert.AreEqual(PeripheralDeviceStatusValues.Online, gateway.PeripheralDevices.First().PeripheralDeviceStatusId);
         }
 
     }

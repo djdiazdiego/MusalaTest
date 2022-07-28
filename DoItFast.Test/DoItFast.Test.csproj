@@ -20,8 +20,4 @@
     <ProjectReference Include="..\DoItFast.WebApi\DoItFast.WebApi.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ValidationTests\" />
-  </ItemGroup>
-
 </Project>

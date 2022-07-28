@@ -45,6 +45,8 @@ namespace DoItFast.Application.Features.ValidatorExtensions
             IQueryRepository<PeripheralDeviceStatus> deviceStatusQueryRepository) =>
             ruleBuilder.ChildRules(c =>
             {
+                c.RuleLevelCascadeMode = CascadeMode.Stop;
+
                 c.RuleFor(p => p.PeripheralDeviceStatusId)
                     .ValidatePeripheralDeviceStatusId(deviceStatusQueryRepository);
 
