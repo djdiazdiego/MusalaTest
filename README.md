@@ -15,7 +15,7 @@ Steps (cmd or similar):
 
     npm install
 
-3-	Go to MusalaTest folder for restore de the Server App dependencies and run and run:
+3-	Go to MusalaTest folder for restore de the Server App dependencies and run:
 
     dotnet restore
 
@@ -64,9 +64,49 @@ Infrastructure Layer:
 
 
 Application Layer:
+
 •	It is constituted by WebApi and Application, they use .Net 6.
+
 •	Within Application are the Commands and Queries, as well as the Handlers and Validations for them. We also have our DTOs models, which have the function of sharing data with the Client Application.
+
 •	In Behavior we have the intermediate code in charge of validating our commands and queries. In MappingConverters some custom mappings, ApiMessages hosts the application's error messages. In Services are the custom services used by the application (currently the services found in Services are not in use, I did not have time to integrate authorization and authentication).
+
 •	In WebApi we have our Controllers and Middleware, as well as the implementation of the Client application. 
+
+
+
+Unit Test:
+
+NUnit was used to perform the unit tests.
+
+The idea was to use SQLite as an in-memory database, as it offers better compatibility with production relational databases, since SQLite is itself a full relational database.
+
+I prefer to use an in-memory database and some classes that simulate the behavior of the real application over the Moq package, because it is closer to reality. However, I also use Moq in specific cases that require it.
+
+I made a good number of tests that summarize in a general way the work with unit tests. I tried to cover in a general way Command Handler, Query Handler, Command Validators, Query Validators and some Integration Tests. Without a doubt, the tests can be as deep and rigorous as desired, but I think that we will leave that part for a real application and not for testing.
+
+
+
+Client Application:
+
+The Client application, developed in Angular 13, uses the “Sakai – Free Angular Admin Template” template. In what consists of our development and leaving behind what the template offers, we have:
+
+Components:
+
+    • GatewayComponent
+
+    • PeripheralDeviceComponent
+
+Services:
+
+    • GatewayService
+    • Peripheral Device Service
+
+Some helper methods in helpers. In core an interceptor to complete our url to the API. In api we have our models (interfaces) and enums.
+
+The application uses paging to load the different entities and not overload the server responses with data.
+
+It also includes a section for API documentation (swagger).
+
 
 
